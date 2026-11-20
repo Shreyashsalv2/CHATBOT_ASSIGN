@@ -1,0 +1,25 @@
+[project]
+name = "lyftr-chat-backend"
+version = "0.1.0"
+requires-python = ">=3.12"
+# orjson and soundfile: LiteLLM 1.110.2 imports them on every cache hit but does not
+# declare them (they normally come with the heavy `proxy` extra).
+dependencies = [
+    "fastapi==0.165.0",
+    "litellm==1.110.2",
+    "orjson==3.13.0",
+    "pydantic-settings==2.16.3",
+    "soundfile==0.14.0",
+    "uvicorn[standard]==0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx==0.28.1",
+    "pytest==9.2.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = ["ignore::UserWarning:pydantic", "ignore::DeprecationWarning"]
