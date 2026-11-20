@@ -22,9 +22,9 @@ Makefile             make up / make down (+ test, logs, dev-backend, dev-fronten
 
 | Tier | URL |
 |---|---|
-| Frontend (Vercel) | _to be added after deploy_ |
-| Backend (Render) | _to be added after deploy_ |
-| Health check | _backend URL_ + `/health` |
+| Frontend (Vercel) | https://chatbot-assign.vercel.app |
+| Backend (Render) | https://lyftr-chat-backend-n2oa.onrender.com |
+| Health check | https://lyftr-chat-backend-n2oa.onrender.com/health |
 
 > The backend runs on Render's free tier, which normally sleeps after 15 minutes without traffic. To keep it awake, a free **UptimeRobot** monitor pings `GET /health` every 5 minutes. Requests are therefore fast, with no ~50 s cold start. If the monitor is ever paused, the first request after a long idle period can take ~50 s while Render wakes the service up.
 
@@ -163,7 +163,7 @@ The spec's example model, `gemini/gemini-2.0-flash`, has been **retired by Googl
 
 ## 4. Verification
 
-Set `B` to the backend URL (`http://localhost:8000` locally).
+Set `B` to the backend URL: `B=https://lyftr-chat-backend-n2oa.onrender.com` (or `http://localhost:8000` locally).
 
 **Health**
 ```bash
