@@ -16,6 +16,12 @@ def test_health(client):
     assert res.json() == {"status": "ok", "keys_configured": 3, "cache_enabled": True}
 
 
+def test_health_accepts_head_for_uptime_monitors(client):
+    res = client.head("/health")
+    assert res.status_code == 200
+    assert res.content == b""
+
+
 # ---------- /chat happy path and history ----------
 
 

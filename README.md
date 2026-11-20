@@ -137,7 +137,7 @@ React UI ──POST /chat──▶ FastAPI
 - **History endpoint:** `GET /sessions/{id}/messages` returns history oldest first, without the system prompt. Assistant messages include their stored metadata.
 - **Location:** set by `DATABASE_URL`. In Docker it is `/data/app.db` on the named volume.
 - **Render caveat:** Render's free tier has no persistent disk, so the deployed SQLite file resets whenever Render starts a fresh container. Locally, the Docker volume keeps history across restarts.
-- **Keep-alive:** a free UptimeRobot HTTP monitor calls `GET /health` every 5 minutes, so the free service never goes to sleep.
+- **Keep-alive:** a free UptimeRobot HTTP monitor calls `/health` every 5 minutes, so the free service never goes to sleep. UptimeRobot probes with `HEAD` by default, so `/health` answers both `GET` and `HEAD` (same path and same check; it isn't a new endpoint).
   - *Why it matters:* sleeping and waking starts a fresh container, which wipes the database. With the monitor in place, history survives between visits and there are no cold starts.
   - *Why `/health`:* it only runs a `SELECT 1` against SQLite, so the pings use no Gemini quota and add nothing to the cache or history.
   - *Cost:* one always-on free service uses ~720–744 instance hours a month, within Render's 750 free hours.
@@ -226,7 +226,7 @@ curl -s -X POST $B/chat -H 'Content-Type: application/json' -d '{bad json'      
 
 **Automated tests**
 
-`make test` runs the backend tests (pytest, 22 tests). They run the **real LiteLLM Router, fallbacks and cache**, with only the provider call replaced by LiteLLM's `mock_response`, so no network or keys are needed. They cover:
+`make test` runs the backend tests (pytest, 23 tests). They run the **real LiteLLM Router, fallbacks and cache**, with only the provider call replaced by LiteLLM's `mock_response`, so no network or keys are needed. They cover:
 - every 422 case
 - 404
 - history order and session isolation

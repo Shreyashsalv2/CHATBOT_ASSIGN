@@ -51,7 +51,8 @@ def create_app(settings: Settings | None = None, gateway: LLMGateway | None = No
         logger.exception("unhandled error on %s %s", request.method, request.url.path)
         return JSONResponse(status_code=500, content={"detail": "internal server error"})
 
-    @app.get("/health", response_model=HealthResponse)
+    # HEAD is accepted too: uptime monitors (e.g. UptimeRobot) probe with HEAD by default.
+    @app.api_route("/health", methods=["GET", "HEAD"], response_model=HealthResponse)
     async def health(request: Request):
         db: Database = request.app.state.db
         gateway: LLMGateway = request.app.state.gateway
